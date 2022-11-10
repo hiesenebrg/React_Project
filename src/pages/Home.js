@@ -1,6 +1,8 @@
+import PropTypes  from "prop-types";
+
 import styles from "../styles/home.module.css";
 
-export const Home = () => {
+const Home = ({posts}) => {
   return (
     <div className="posts-list">
       <div className={styles.PostWrapper}>
@@ -52,3 +54,9 @@ export const Home = () => {
     </div>
   );
 };
+// so here we are forcing the posts to be an array using proptypes
+// Home.PropTypes = {
+//     posts :PropTypes.array.isRequired,
+// };
+
+export default Home;
