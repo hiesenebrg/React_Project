@@ -1,11 +1,11 @@
-import PropTypes  from "prop-types";
+import PropTypes from "prop-types";
 
 import styles from "../styles/home.module.css";
 
-const Home = ({posts}) => {
+const Home = ({ posts }) => {
   return (
     <div className="posts-list">
-      <div className={styles.PostWrapper}>
+      <div className={styles.PostWrapper} key={`post-${posts._id}`}>
         <div className={styles.PostHeader}>
           <div className={styles.Avatar}>
             <img

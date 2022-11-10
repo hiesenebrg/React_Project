@@ -3,7 +3,8 @@ import { useLoaderData } from "react-router-dom";
 import { getPosts } from "../api";
 import { Home } from "../pages";
 import "../styles/home.module.css";
-import { Loader } from "./";
+import { Loader, Navbar } from "./";
+
 function App() {
   const [posts, setposts] = useState([]);
   const [Loading, setLoading] = useState(true);
@@ -24,6 +25,7 @@ function App() {
   }
   return (
     <div className="App">
+      <Navbar />
       <Home posts={posts} />
     </div>
   );
