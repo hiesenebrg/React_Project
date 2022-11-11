@@ -1,9 +1,22 @@
 import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import {  Route, Routes } from "react-router-dom";
 import { getPosts } from "../api";
-import { Home } from "../pages";
+import { Home, Login } from "../pages";
 import "../styles/home.module.css";
 import { Loader, Navbar } from "./";
+
+const About = () => {
+  return <h1>About</h1>;
+};
+
+const UserInfo = () => {
+  return <h1>UserInfo</h1>;
+};
+
+const page404 = () => {
+    return <h1>404 - Not Found</h1>;
+  };
+
 
 function App() {
   const [posts, setposts] = useState([]);
@@ -26,7 +39,16 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Home posts={posts} />
+      
+        <Routes>
+          <Route exact path="/" element={<Home posts={posts}/>} />
+          <Route exact path="/about" element={<About/>} />
+          <Route exact path="user" element={<UserInfo/>} />
+          <Route exact path="/login" element={<Login/>} />
+          <Route element={<page404/>} />
+
+        </Routes>
+      
     </div>
   );
 }
