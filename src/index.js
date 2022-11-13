@@ -5,13 +5,16 @@ import "./styles/index.css";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./components";
 import { ToastProvider } from "react-toast-notifications";
-
+import { AuthProvider } from "./providers/AuthProvider";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
     <ToastProvider autoDismiss={true} autoDismissTimeout={5000} placement="top-left">
+    <AuthProvider>
     <App />
+    </AuthProvider>
+    
     </ToastProvider>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {  Route, Routes } from "react-router-dom";
 import { getPosts } from "../api";
+import { useAuth } from "../hooks";
 import { Home, Login } from "../pages";
 import "../styles/home.module.css";
 import { Loader, Navbar } from "./";
@@ -19,21 +20,22 @@ const page404 = () => {
 
 
 function App() {
-  const [posts, setposts] = useState([]);
-  const [Loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-      if (response.success) {
-        setposts(response.data.posts);
-      }
-      setLoading(false);
-    };
+    const auth = useAuth();
+    const [posts, setposts] = useState([]);
+    const [Loading, setLoading] = useState(true);
+//   useEffect(() => {
+//     const fetchPosts = async () => {
+//       const response = await getPosts();
+//       if (response.success) {
+//         setposts(response.data.posts);
+//       }
+//       setLoading(false);
+//     };
 
-    fetchPosts();
-  }, []);
+//     fetchPosts();
+//   }, []);
 
-  if (Loading) {
+  if (auth.loading) {
     return <Loader />;
   }
   return (
@@ -41,7 +43,7 @@ function App() {
       <Navbar />
       
         <Routes>
-          <Route exact path="/" element={<Home posts={posts}/>} />
+          <Route exact path="/" element={<Home posts={[]}/>} />
           <Route exact path="/about" element={<About/>} />
           <Route exact path="user" element={<UserInfo/>} />
           <Route exact path="/login" element={<Login/>} />
