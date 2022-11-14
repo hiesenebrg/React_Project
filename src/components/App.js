@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {  Route, Routes } from "react-router-dom";
 import { getPosts } from "../api";
 import { useAuth } from "../hooks";
-import { Home, Login ,Signup } from "../pages";
+import { Home, Login ,Settings,Signup } from "../pages";
 import "../styles/home.module.css";
 import { Loader, Navbar } from "./";
 
@@ -45,6 +45,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home posts={[]}/>} />
           <Route exact path="/about" element={<About/>} />
+          <Route exact path="/settings" element={<Settings/>} />
           <Route exact path="user" element={<UserInfo/>} />
           <Route exact path="/login" element={<Login/>} />
           <Route exact path="/register" element={<Signup/>} />
