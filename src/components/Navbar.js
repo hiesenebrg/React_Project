@@ -1,6 +1,7 @@
 import styles from '../styles/navbar.module.css';
-
+import {useAuth} from '../hooks';
 const Navbar = () => {
+  const auth  = useAuth();
   return (
     <div className={styles.nav}>
       <div className={styles.leftDiv}>
@@ -13,7 +14,7 @@ const Navbar = () => {
       </div>
 
       <div className={styles.rightNav}>
-        <div className={styles.user}>
+        {auth.user && <div className={styles.user}>
           <a href="/">
             <img
               src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
@@ -21,20 +22,27 @@ const Navbar = () => {
               className={styles.userDp}
             />
           </a>
-          <span>Aakash</span>
-        </div>
+          <span>{auth.user.name }</span>
+        </div>}
 
         <div className={styles.navLinks}>
           <ul>
+            {auth.user ?(
+              <>
             <li>
-              <a href="/">Log in</a>
+              <buton onClick={auth.logout} >Log Out</buton>
             </li>
+            </>
+            ):(<>
             <li>
-              <a href="/">Log out</a>
+              <link to ="/login">Log In</link>
             </li>
             <li>
               <a href="/">Register</a>
             </li>
+            </>
+            )}
+            
           </ul>
         </div>
       </div>

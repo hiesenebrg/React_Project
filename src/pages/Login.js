@@ -22,7 +22,7 @@ const Login = () => {
       });
     }
 
-    const response = await auth.login(email, password);
+    const response =  auth.login(email, password);
 
     if (response.success) {
       addToast('Successfully logged in', {
