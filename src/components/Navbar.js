@@ -1,4 +1,5 @@
 import styles from '../styles/navbar.module.css';
+import { Link } from 'react-router-dom';
 import {useAuth} from '../hooks';
 const Navbar = () => {
   const auth  = useAuth();
@@ -35,10 +36,10 @@ const Navbar = () => {
             </>
             ):(<>
             <li>
-              <link to ="/login">Log In</link>
+              <Link to ="/login">Log In</Link>
             </li>
             <li>
-              <a href="/">Register</a>
+              <Link to ="/register">Register</Link>
             </li>
             </>
             )}

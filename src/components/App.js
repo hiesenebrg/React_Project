@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {  Route, Routes } from "react-router-dom";
 import { getPosts } from "../api";
 import { useAuth } from "../hooks";
-import { Home, Login } from "../pages";
+import { Home, Login ,Signup } from "../pages";
 import "../styles/home.module.css";
 import { Loader, Navbar } from "./";
 
@@ -47,6 +47,7 @@ function App() {
           <Route exact path="/about" element={<About/>} />
           <Route exact path="user" element={<UserInfo/>} />
           <Route exact path="/login" element={<Login/>} />
+          <Route exact path="/register" element={<Signup/>} />
           <Route element={<page404/>} />
 
         </Routes>
