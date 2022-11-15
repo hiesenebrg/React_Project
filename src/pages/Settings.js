@@ -1,7 +1,7 @@
 import styles from "../styles/settings.module.css";
 import { useAuth } from "../hooks";
 import { useState } from "react";
-
+import { useToasts } from "react-toast-notifications";
 const Settings = () => {
   const auth = useAuth();
   const [editMode, setEditMode] = useState(false);
@@ -11,8 +11,58 @@ const Settings = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [savingForm, setSavingForm] = useState(false);
+  const { addToast } = useToasts();
+  const clearForm =() =>{
+    setConfirmPassword("");
+    setPassword("");
+  }
+  const updateProfile =  async () => {
+    setSavingForm(true);
 
-  const updateProfile = () => {};
+    let error = false;
+    if (!name || !password || !confirmPassword) {
+      addToast('Please fill all the fields', {
+        appearance: 'error',
+      });
+
+      error = true;
+    }
+
+    if (password !== confirmPassword) {
+      addToast('Password and confirm password does not match', {
+        appearance: 'error',
+      });
+
+      error = true;
+    }
+
+    if (error) {
+      return setSavingForm(false);
+    }
+
+    const response = await auth.updateUser(
+      auth.user._id,
+      name,
+      password,
+      confirmPassword
+    );
+
+    console.log('settings response', response);
+    if (response.success) {
+      setEditMode(false);
+      setSavingForm(false);
+      clearForm();
+
+      return addToast('User updated successfully', {
+        appearance: 'success',
+      });
+    } else {
+      addToast(response.message, {
+        appearance: 'error',
+      });
+    }
+    setSavingForm(false);
+  };
 
   return (
     <div className={styles.settings}>
