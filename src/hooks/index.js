@@ -1,14 +1,14 @@
-import { useContext, useState, useEffect, useRef } from 'react';
-import jwt from 'jwt-decode';
+import { useContext, useState, useEffect, useRef } from "react";
+import jwt from "jwt-decode";
 
-import { AuthContext } from '../providers/AuthProvider';
-import { login as userLogin , register , editProfile } from '../api';
+import { AuthContext } from "../providers/AuthProvider";
+import { login as userLogin, register, editProfile } from "../api";
 import {
   setItemInLocalStorage,
   LOCALSTORAGE_TOKEN_KEY,
   removeItemFromLocalStorage,
   getItemFromLocalStorage,
-} from '../utils';
+} from "../utils";
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -34,9 +34,10 @@ export const useProvideAuth = () => {
   const updateUser = async (userId, name, password, confirmPassword) => {
     const response = await editProfile(userId, name, password, confirmPassword);
 
-    console.log('response', response);
+    console.log("response", response);
     if (response.success) {
       setUser(response.data.user);
+      // always update hte session cookie while upadting the userProfile
       setItemInLocalStorage(
         LOCALSTORAGE_TOKEN_KEY,
         response.data.token ? response.data.token : null
