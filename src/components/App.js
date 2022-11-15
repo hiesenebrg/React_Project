@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  Route, Routes } from "react-router-dom";
+import {  Navigate, Route, Routes } from "react-router-dom";
 import { getPosts } from "../api";
 import { useAuth } from "../hooks";
 import { Home, Login ,Settings,Signup } from "../pages";
@@ -17,6 +17,24 @@ const UserInfo = () => {
 const page404 = () => {
     return <h1>404 - Not Found</h1>;
   };
+// here children isbasically whatever inbetween PrivateRoute Component
+  function PrivateRoute({ children, ...rest }) {
+    const auth = useAuth();
+  
+    return (
+      <Route
+        {...rest}
+        render={() => {
+          if (auth.user) {
+            return children;
+          }
+  
+          return <Navigate to="/login" />;
+        }}
+      />
+    );
+  }
+  
 
 
 function App() {
@@ -45,7 +63,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home posts={[]}/>} />
           <Route exact path="/about" element={<About/>} />
-          <Route exact path="/settings" element={<Settings/>} />
+          <PrivateRoute exact path="/settings" element={<Settings/>} />
           <Route exact path="user" element={<UserInfo/>} />
           <Route exact path="/login" element={<Login/>} />
           <Route exact path="/register" element={<Signup/>} />

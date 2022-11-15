@@ -60,6 +60,7 @@ const Signup = () => {
 
     setSigningUp(false);
   };
+  
 if(auth.user){
   return <Navigate to='/' />
 }
