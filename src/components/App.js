@@ -2,17 +2,11 @@ import { useEffect, useState } from "react";
 import {  Navigate, Route, Routes } from "react-router-dom";
 import { getPosts } from "../api";
 import { useAuth } from "../hooks";
-import { Home, Login ,Settings,Signup } from "../pages";
+import { Home, Login ,Settings,Signup, UserProfile } from "../pages";
 import "../styles/home.module.css";
 import { Loader, Navbar } from "./";
 
-const About = () => {
-  return <h1>About</h1>;
-};
 
-const UserInfo = () => {
-  return <h1>UserInfo</h1>;
-};
 
 const page404 = () => {
     return <h1>404 - Not Found</h1>;
@@ -62,9 +56,10 @@ function App() {
       
         <Routes>
           <Route exact path="/" element={<Home posts={[]}/>} />
-          <Route exact path="/about" element={<About/>} />
-          <PrivateRoute exact path="/settings" element={<Settings/>} />
-          <Route exact path="user" element={<UserInfo/>} />
+          {/* private route is not working so will fix later */}
+          {/* <PrivateRoute exact path="/user.:userId" element={<UserProfile/>} /> */}
+          {/* <PrivateRoute exact path="/settings" element={<Settings/>} /> */}
+          
           <Route exact path="/login" element={<Login/>} />
           <Route exact path="/register" element={<Signup/>} />
           <Route element={<page404/>} />

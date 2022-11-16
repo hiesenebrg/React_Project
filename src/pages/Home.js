@@ -1,62 +1,90 @@
 import PropTypes from "prop-types";
-
+import { Link } from "react-router-dom";
+import { useState, useEffect ,  } from "react";
 import styles from "../styles/home.module.css";
+import { getPosts } from '../api';
+import { Loader } from "../components";
+const Home = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState([]);
 
-const Home = ({ posts }) => {
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await getPosts();
+
+      if (response.success) {
+        setPosts(response.data.posts);
+      }
+
+      setLoading(false);
+    };
+
+    fetchPosts();
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    <div className="posts-list">
-      <div className={styles.PostWrapper} key={`post-${posts._id}`}>
-        <div className={styles.PostHeader}>
-          <div className={styles.Avatar}>
+    <div className={styles.postsList}>
+    {posts.map((post) => (
+      <div className={styles.postWrapper} key={`post-${post._id}`}>
+        <div className={styles.postHeader}>
+          <div className={styles.postAvatar}>
             <img
               src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
               alt="user-pic"
             />
-            <div>
-              <span className="post-author"> Adarsh Singh</span>
-              <span className="post-time"> a minute ago</span>
+             <div>
+                <Link
+                  to={{
+                    pathname: `/user/${post.user._id}`,
+                    // we will grabe thisstae using useLoacation hook in userProfile Page
+                    state: {
+                      user: post.user,
+                    },
+                  }}
+                className={styles.postAuthor}
+              >
+                {post.user.name}
+              </Link>
+              <span className={styles.postTime}>a minute ago</span>
             </div>
           </div>
-          <div className={styles.PostContent}>Post Content</div>
-          <div className={styles.PostActions}>
-            <div className={styles.PostLike}>
+          <div className={styles.postContent}>{post.conent}</div>
+
+          <div className={styles.postActions}>
+            <div className={styles.postLike}>
               <img
-                src="httlps://image.flaticon.com/svg/1077/1077035.svg"
+                src="https://image.flaticon.com/icons/svg/1077/1077035.svg"
                 alt="likes-icon"
               />
               <span>5</span>
             </div>
 
-            <div className={styles.PostCommentsIcon}>
+            <div className={styles.postCommentsIcon}>
               <img
-                src="httlps://image.flaticon.com/svg/1077/1077035.svg"
+                src="https://image.flaticon.com/icons/svg/1380/1380338.svg"
                 alt="comments-icon"
               />
-
-              <span>2</span>
+              <span>{post.comments.length}</span>
             </div>
           </div>
-          <div className={styles.PostCommentBox}>
+          <div className={styles.postCommentBox}>
             <input placeholder="Start typing a comment" />
           </div>
-          <div className={styles.PostCommentsList}>
-            <div className={styles.PostCommentItem}>
-              <div className={styles.PostCommentHeader}>
-                <span className={styles.PostCommentAuthor}>Bill</span>
-                <span className={styles.PostCommentTime}>a minute ago</span>
-                <span className={styles.PostCommentLike}>22</span>
-              </div>
-              <div className={styles.PostCommentContent}>Random comment</div>
-            </div>
-          </div>
+
+          {/* <div className={styles.postCommentsList}>
+            {post.comments.map((comment) => (
+              <Comment comment={comment} />
+            ))}
+          </div> */}
         </div>
       </div>
-    </div>
-  );
+    ))}
+  </div>
+);
 };
-// so here we are forcing the posts to be an array using proptypes
-// Home.PropTypes = {
-//     posts :PropTypes.array.isRequired,
-// };
 
 export default Home;
