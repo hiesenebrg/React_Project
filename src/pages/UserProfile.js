@@ -5,7 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "../styles/settings.module.css";
 import { useAuth } from "../hooks";
 import { Loader } from "../components";
-import { fetchUserProfile, addFriend } from "../api";
+import { fetchUserProfile, addFriend , removeFriend } from "../api";
 const UserProfile = () => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -52,7 +52,27 @@ const UserProfile = () => {
     return false;
   };
 
-  const handleRemoveFriendClick = () => {};
+  const handleRemoveFriendClick = async() => {
+    setRequestInProgress(true);
+
+    const response = await removeFriend(userId);
+
+    if (response.success) {
+      const friendship = auth.user.friends.filter(
+        (friend) => friend.to_user._id === userId
+      );
+
+      auth.updateUserFriends(false, friendship[0]);
+      addToast('Friend removed successfully!', {
+        appearance: 'success',
+      });
+    } else {
+      addToast(response.message, {
+        appearance: 'error',
+      });
+    }
+    setRequestInProgress(false);
+  };
 
   const handleAddFriendClick = async () => {
     setRequestInProgress(true);
