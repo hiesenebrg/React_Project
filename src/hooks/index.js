@@ -2,7 +2,12 @@ import { useContext, useState, useEffect, useRef } from "react";
 import jwt from "jwt-decode";
 
 import { AuthContext } from "../providers/AuthProvider";
-import { login as userLogin, register, editProfile } from "../api";
+import {
+  login as userLogin,
+  register,
+  editProfile,
+  fetchUserFriends,
+} from "../api";
 import {
   setItemInLocalStorage,
   LOCALSTORAGE_TOKEN_KEY,
@@ -19,16 +24,31 @@ export const useProvideAuth = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+    // this is changes because before wehn we refresh the friend list is going on the page so in order to show
+    // or send the friend data every time when the page is refrshed
+    const getUser = async () => {
+      const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
 
-    if (userToken) {
-      // here we are firstly decoding the token and then saving it into the setUser
-      const user = jwt(userToken);
+      if (userToken) {
+        const user = jwt(userToken);
+        const response = await fetchUserFriends();
 
-      setUser(user);
-    }
+        let friends = [];
 
-    setLoading(false);
+        if (response.success) {
+          friends = response.data.friends;
+        }
+
+        setUser({
+          ...user,
+          friends,
+        });
+      }
+
+      setLoading(false);
+    };
+
+    getUser();
   }, []);
 
   const updateUser = async (userId, name, password, confirmPassword) => {
