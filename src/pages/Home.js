@@ -4,27 +4,12 @@ import { useState, useEffect ,  } from "react";
 import styles from "../styles/home.module.css";
 import { getPosts } from '../api';
 import { Loader, Comment  , FriendsList, CreatePost} from "../components";
-import { useAuth } from "../hooks";
+import { useAuth, usePosts } from "../hooks";
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState([]);
 const auth = useAuth();
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-
-      if (response.success) {
-        setPosts(response.data.posts);
-      }
-
-      setLoading(false);
-    };
-
-    fetchPosts();
-  }, []);
-
-  if (loading) {
+const posts = usePosts();
+  if (posts.loading) {
     return <Loader />;
   }
 
@@ -32,7 +17,7 @@ const auth = useAuth();
     <div  className={styles.home}>
     <div className={styles.postsList}>
     <CreatePost/>
-    {posts.map((post) => (
+    {posts.data.map((post) => (
       <div className={styles.postWrapper} key={`post-${post._id}`}>
         <div className={styles.postHeader}>
           <div className={styles.postAvatar}>
@@ -56,7 +41,7 @@ const auth = useAuth();
               <span className={styles.postTime}>a minute ago</span>
             </div>
           </div>
-          <div className={styles.postContent}>{post.conent}</div>
+          <div className={styles.postContent}>{post.content}</div>
 
           <div className={styles.postActions}>
             <div className={styles.postLike}>
@@ -64,7 +49,7 @@ const auth = useAuth();
                 src="https://t4.ftcdn.net/jpg/00/97/00/09/240_F_97000994_agjCws4sP5BRmvWCaALly7z3tXZGxuXO.jpg"
                 alt="likes-icon"
               />
-              <span>5</span>
+              <span>{post.likes.length}</span>
             </div>
 
             <div className={styles.postCommentsIcon}>
