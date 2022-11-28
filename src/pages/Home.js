@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect ,  } from "react";
 import styles from "../styles/home.module.css";
 import { getPosts } from '../api';
-import { Loader } from "../components";
+import { Loader, Comment } from "../components";
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState([]);
@@ -33,7 +33,7 @@ const Home = () => {
         <div className={styles.postHeader}>
           <div className={styles.postAvatar}>
             <img
-              src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+              src="https://cdn-icons-png.flaticon.com/128/1144/1144709.png"
               alt="user-pic"
             />
              <div>
@@ -57,7 +57,7 @@ const Home = () => {
           <div className={styles.postActions}>
             <div className={styles.postLike}>
               <img
-                src="https://image.flaticon.com/icons/svg/1077/1077035.svg"
+                src="https://t4.ftcdn.net/jpg/00/97/00/09/240_F_97000994_agjCws4sP5BRmvWCaALly7z3tXZGxuXO.jpg"
                 alt="likes-icon"
               />
               <span>5</span>
@@ -65,7 +65,7 @@ const Home = () => {
 
             <div className={styles.postCommentsIcon}>
               <img
-                src="https://image.flaticon.com/icons/svg/1380/1380338.svg"
+                src="https://t4.ftcdn.net/jpg/03/08/43/19/240_F_308431972_g5fuiXwgOZpDCMFQougq13hgSaQVHVro.jpg"
                 alt="comments-icon"
               />
               <span>{post.comments.length}</span>
@@ -75,11 +75,11 @@ const Home = () => {
             <input placeholder="Start typing a comment" />
           </div>
 
-          {/* <div className={styles.postCommentsList}>
+          <div className={styles.postCommentsList}>
             {post.comments.map((comment) => (
               <Comment comment={comment} />
             ))}
-          </div> */}
+          </div>
         </div>
       </div>
     ))}
@@ -87,4 +87,10 @@ const Home = () => {
 );
 };
 
+Home.propTypes = {
+  posts: PropTypes.array.isRequired,
+};
+
 export default Home;
+
+

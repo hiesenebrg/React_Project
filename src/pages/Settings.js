@@ -20,7 +20,7 @@ const Settings = () => {
     setSavingForm(true);
 
     let error = false;
-    if (!name || !password || !confirmPassword) {
+    if (!name && !password && !confirmPassword) {
       addToast('Please fill all the fields', {
         appearance: 'error',
       });
@@ -39,15 +39,16 @@ const Settings = () => {
     if (error) {
       return setSavingForm(false);
     }
+   
 
-    const response = await auth.updateUser(
+    const response =  await auth.updateUser(
       auth.user._id,
       name,
       password,
       confirmPassword
     );
 
-    console.log('settings response', response);
+    
     if (response.success) {
       setEditMode(false);
       setSavingForm(false);
@@ -68,7 +69,7 @@ const Settings = () => {
     <div className={styles.settings}>
       <div className={styles.imgContainer}>
         <img
-          src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+          src="https://cdn-icons-png.flaticon.com/128/1144/1144709.png"
           alt=""
         />
       </div>

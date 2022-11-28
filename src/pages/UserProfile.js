@@ -12,7 +12,7 @@ const UserProfile = () => {
   const [requestInProgress, setRequestInProgress] = useState(false);
   const { userId } = useParams();
   const { addToast } = useToasts();
-  const history = useNavigate()();
+  const navigate = useNavigate();
   const auth = useAuth();
   // in order to make any user see the profile page using the link is we have
   useEffect(() => {
@@ -25,14 +25,14 @@ const UserProfile = () => {
         addToast(response.message, {
           appearance: "error",
         });
-        return history.push("/");
+        return navigate("/");
       }
 
       setLoading(false);
     };
 
     getUser();
-  }, [userId, history, addToast]);
+  }, [userId, navigate, addToast]);
   // it means that if userId or history or addToast is changes then our useEffect function will re-run
 
   if (loading) {
@@ -98,7 +98,7 @@ const UserProfile = () => {
     <div className={styles.settings}>
       <div className={styles.imgContainer}>
         <img
-          src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+          src="https://cdn-icons-png.flaticon.com/128/1144/1144709.png"
           alt=""
         />
       </div>

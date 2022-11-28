@@ -20,3 +20,4 @@ export const AuthProvider = ({ children }) => {
   // here children isbasically whatever in-between AuthContext.Provider Component
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };
+//here the children is <App /> in this case as it  is applied in the main index.js file

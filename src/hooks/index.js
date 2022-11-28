@@ -26,6 +26,8 @@ export const useProvideAuth = () => {
   useEffect(() => {
     // this is changes because before wehn we refresh the friend list is going on the page so in order to show
     // or send the friend data every time when the page is refrshed
+    
+    // we have made getuser function because we need await while fetching user friends
     const getUser = async () => {
       const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
 
@@ -57,7 +59,7 @@ export const useProvideAuth = () => {
     console.log("response", response);
     if (response.success) {
       setUser(response.data.user);
-      // always update hte session cookie while upadting the userProfile
+      // always set  the new session cookie while upadting the userProfile
       setItemInLocalStorage(
         LOCALSTORAGE_TOKEN_KEY,
         response.data.token ? response.data.token : null
@@ -139,6 +141,7 @@ export const useProvideAuth = () => {
     logout,
     loading,
     signup,
+    updateUser,
     updateUserFriends,
   };
 };
