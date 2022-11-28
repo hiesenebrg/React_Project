@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { useState, useEffect ,  } from "react";
 import styles from "../styles/home.module.css";
 import { getPosts } from '../api';
-import { Loader, Comment } from "../components";
+import { Loader, Comment  , FriendsList, CreatePost} from "../components";
+import { useAuth } from "../hooks";
+
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState([]);
-
+const auth = useAuth();
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await getPosts();
@@ -27,7 +29,9 @@ const Home = () => {
   }
 
   return (
+    <div  className={styles.home}>
     <div className={styles.postsList}>
+    <CreatePost/>
     {posts.map((post) => (
       <div className={styles.postWrapper} key={`post-${post._id}`}>
         <div className={styles.postHeader}>
@@ -82,8 +86,13 @@ const Home = () => {
           </div>
         </div>
       </div>
+      
     ))}
+    
   </div>
+  {auth.user && <FriendsList/>}
+  </div>
+  
 );
 };
 

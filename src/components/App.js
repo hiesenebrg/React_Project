@@ -14,19 +14,7 @@ const page404 = () => {
 // here children isbasically whatever inbetween PrivateRoute Component
   function PrivateRoute({ children, ...rest }) {
     const auth = useAuth();
-  
-    return (
-      <Route
-        {...rest}
-        render={() => {
-          if (auth.user) {
-            return <Outlet />;
-          }
-  
-          return <Navigate to="/login" />;
-        }}
-      />
-    );
+  return auth?<Outlet/> :  <Navigate to="/login" />;
   }
   
 
@@ -47,8 +35,15 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home posts={[]}/>} />
           {/* private route is not working so will fix later */}
-          <Route exact path="/user/:userId" element={<UserProfile/>} />
-          {/* <PrivateRoute exact path="/settings" element={<Settings/>} /> */}
+         
+          <Route exact path="/settings" element={<PrivateRoute/>} >
+          <Route exact path="/settings" element={<Settings/>} />
+          </Route>
+
+          <Route exact path="/user" element={<PrivateRoute/>} >
+          <Route exact path="/user/:userId" element={<UserProfile/>}  />
+          </Route>
+         
           
           <Route exact path="/login" element={<Login/>} />
           <Route exact path="/register" element={<Signup/>} />
